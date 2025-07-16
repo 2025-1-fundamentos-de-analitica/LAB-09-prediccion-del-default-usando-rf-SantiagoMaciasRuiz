@@ -143,15 +143,15 @@ def create_pipeline() -> Pipeline:
 
 def create_estimator(pipeline: Pipeline) -> GridSearchCV:
     param_grid = {
-        "classifier__n_estimators": [50, 100, 200],
-        "classifier__max_depth": [None, 5, 10, 20],
-        "classifier__min_samples_split": [2, 5, 10],
-        "classifier__min_samples_leaf": [1, 2, 4],
+        "classifier__n_estimators": [5, 10, 20],
+        "classifier__max_depth": [None, 5, 10, 15],
+        "classifier__min_samples_split": [2, 3, 5],
+        "classifier__min_samples_leaf": [1, 2, 2],
     }
     return GridSearchCV(
         pipeline,
         param_grid,
-        cv=10,
+        cv=5,
         scoring="balanced_accuracy",
         n_jobs=-1,
         verbose=2,
