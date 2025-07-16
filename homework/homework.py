@@ -142,22 +142,21 @@ def create_pipeline() -> Pipeline:
 
 
 def create_estimator(pipeline: Pipeline) -> GridSearchCV:
-    #valores para pasar el test sin estar 2 horas esperando
     param_grid = {
-        "classifier__n_estimators": [50, 100],           # Número moderado de árboles
-        "classifier__max_depth": [5, 10],                # Profundidad controlada
-        "classifier__min_samples_split": [2],            # Valor por defecto
-        "classifier__min_samples_leaf": [1, 2],          # Uno o dos ejemplos por hoja
+        "classifier__n_estimators": [50, 100, 200],
+        "classifier__max_depth": [None, 5, 10, 20],
+        "classifier__min_samples_split": [2, 5, 10],
+        "classifier__min_samples_leaf": [1, 2, 4],
     }
     return GridSearchCV(
-    estimator=pipeline,
-    param_grid=param_grid,
-    cv=5,                            # Menos folds que 10, pero aceptable
-    scoring="balanced_accuracy",
-    n_jobs=-1,                       # Usa todos los núcleos
-    verbose=2,
-    refit=True
-)
+        pipeline,
+        param_grid,
+        cv=10,
+        scoring="balanced_accuracy",
+        n_jobs=-1,
+        verbose=2,
+        refit=True,
+    )
 
 
 def save_model(path: str, estimator: GridSearchCV):
